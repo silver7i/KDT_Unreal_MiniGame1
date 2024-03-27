@@ -5,6 +5,11 @@
 #include "PlayerCharacter.h"
 #include "MainPlayerController.h"
 
+UPlayerAnimInstance::UPlayerAnimInstance()
+{
+	mAnimType = EPlayerAnimType::Idle;
+}
+
 void UPlayerAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();

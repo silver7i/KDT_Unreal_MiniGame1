@@ -21,5 +21,6 @@ public:
 
 public:
 	UInputAction* mMove = nullptr;
+	UInputAction* mJump = nullptr;
 	
 };

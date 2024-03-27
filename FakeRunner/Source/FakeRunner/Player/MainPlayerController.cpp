@@ -3,7 +3,7 @@
 
 #include "MainPlayerController.h"
 #include "Data/Input/BasicInputDataConfig.h"
-#include "time.h"
+#include "PlayerCharacter.h"
 
 void AMainPlayerController::BeginPlay()
 {
@@ -20,12 +20,14 @@ void AMainPlayerController::BeginPlay()
 void AMainPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
+	// InputComponent : 입력관리 컴포넌트
 	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 	// ensure은 내부의 판별식이 false일 때 작용한다.
 	ensure(EnhancedInputComponent);
 
 	const UBasicInputDataConfig* BasicInputDataConfig = GetDefault<UBasicInputDataConfig>();
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->mMove, ETriggerEvent::Triggered, this, &ThisClass::OnMove);
+	EnhancedInputComponent->BindAction(BasicInputDataConfig->mJump, ETriggerEvent::Triggered, this, &ThisClass::OnJump);
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)
@@ -87,4 +89,11 @@ void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)
 	//		if (ActionValue.X == 0 )	---> mMovedir == 0		전방
 	//		if (ActionValue.X == -1)	---> mMovedir == -90.f	왼쪽
 	//		if (ActionValue.X == 1 )	---> mMovedir == 90.f	오른쪽
+}
+
+void AMainPlayerController::OnJump(const FInputActionValue& InputActionValue)
+{
+	APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
+
+	ControlledPawn->Jump();
 }
