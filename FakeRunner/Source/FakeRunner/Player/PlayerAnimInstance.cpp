@@ -3,6 +3,7 @@
 
 #include "PlayerAnimInstance.h"
 #include "PlayerCharacter.h"
+#include "MainPlayerController.h"
 
 void UPlayerAnimInstance::NativeInitializeAnimation()
 {
@@ -14,12 +15,12 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	APlayerCharacter* OwnerPawn = Cast<APlayerCharacter>(TryGetPawnOwner());
+	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
 
 	// IsValid : 객체가 유효한지 체크한다.
-	if (IsValid(OwnerPawn))
+	if (IsValid(PlayerCharacter))
 	{
-		UCharacterMovementComponent* Movement = OwnerPawn->GetCharacterMovement();
+		UCharacterMovementComponent* Movement = PlayerCharacter->GetCharacterMovement();
 
 		if (IsValid(Movement))
 		{
@@ -29,6 +30,17 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 			// 속도의 비율을 구한다.
 			mMoveSpeed /= Movement->MaxWalkSpeed;
+		}
+
+		// 이 애님인스턴스를 가지고 있는 캐릭터로부터 해당 캐릭터를 컨트롤 하고 있는
+		// 플레이어 컨트롤러를 얻어온다.
+		AMainPlayerController* Controller = PlayerCharacter->GetController<AMainPlayerController>();
+
+		// 위에서 얻어온 컨트롤러가 유효하면 GetMoveDir()함수의 return 값으로
+		// mMoveDir 값을 얻어온다. 
+		if (IsValid(Controller))
+		{
+			mMoveDir = Controller->GetMoveDir();
 		}
 	}
 }
