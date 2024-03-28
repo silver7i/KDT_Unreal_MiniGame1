@@ -23,8 +23,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	EPlayerAnimType mAnimType;
 
+	bool	mCanJump;
+
 public:
 	UPlayerAnimInstance();
+
+public:
+	void SetAnimType(EPlayerAnimType Type)
+	{
+		mAnimType = Type;
+	}
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -36,4 +44,7 @@ protected:
 public:
 	virtual void NativeInitializeAnimation();
 	virtual void NativeUpdateAnimation(float DeltaSeconds);
+
+public:
+	void PlayJump();
 };

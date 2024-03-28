@@ -7,6 +7,8 @@
 
 UPlayerAnimInstance::UPlayerAnimInstance()
 {
+	mCanJump = true;
+
 	mAnimType = EPlayerAnimType::Idle;
 }
 
@@ -35,6 +37,13 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 			// 속도의 비율을 구한다.
 			mMoveSpeed /= Movement->MaxWalkSpeed;
+
+			// IsMovingOnGround() : 땅을 밝고 있는지 판단해주는 함수
+			//bool	OnGround = Movement->IsMovingOnGround();
+			//if (!OnGround && mAnimType != EPlayerAnimType::Jump && mAnimType != EPlayerAnimType::Fall)
+			//{
+			//	mAnimType = EPlayerAnimType::Fall;
+			//}
 		}
 
 		// 이 애님인스턴스를 가지고 있는 캐릭터로부터 해당 캐릭터를 컨트롤 하고 있는
@@ -48,4 +57,11 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			mMoveDir = Controller->GetMoveDir();
 		}
 	}
+}
+
+void UPlayerAnimInstance::PlayJump()
+{
+	mCanJump = false;
+
+	mAnimType = EPlayerAnimType::Jump;
 }

@@ -95,5 +95,5 @@ void AMainPlayerController::OnJump(const FInputActionValue& InputActionValue)
 {
 	APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
 
-	ControlledPawn->Jump();
+	ControlledPawn->PlayJump();
 }
