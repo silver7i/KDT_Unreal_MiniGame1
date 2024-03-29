@@ -10,6 +10,8 @@ UPlayerAnimInstance::UPlayerAnimInstance()
 	mCanJump = true;
 
 	mAnimType = EPlayerAnimType::Idle;
+
+	mAdditiveAlpha = 0.f;
 }
 
 void UPlayerAnimInstance::NativeInitializeAnimation()
@@ -39,11 +41,11 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			mMoveSpeed /= Movement->MaxWalkSpeed;
 
 			// IsMovingOnGround() : 땅을 밝고 있는지 판단해주는 함수
-			//bool	OnGround = Movement->IsMovingOnGround();
-			//if (!OnGround && mAnimType != EPlayerAnimType::Jump && mAnimType != EPlayerAnimType::Fall)
-			//{
-			//	mAnimType = EPlayerAnimType::Fall;
-			//}
+			mOnGround = Movement->IsMovingOnGround();
+			if (!mOnGround && mAnimType != EPlayerAnimType::Jump && mAnimType != EPlayerAnimType::Fall)
+			{
+				mAnimType = EPlayerAnimType::Fall;
+			}
 		}
 
 		// 이 애님인스턴스를 가지고 있는 캐릭터로부터 해당 캐릭터를 컨트롤 하고 있는
@@ -64,4 +66,41 @@ void UPlayerAnimInstance::PlayJump()
 	mCanJump = false;
 
 	mAnimType = EPlayerAnimType::Jump;
+
+	// 점프 리커버리 몽타주가 재생되고 있다면 재생을 중지한다.
+	if (Montage_IsPlaying(mJumpRecoveryAdditiveMontage))
+	{
+		Montage_Stop(0.1f, mJumpRecoveryAdditiveMontage);
+		mAdditiveAlpha = 0.f;
+	}
+}
+
+void UPlayerAnimInstance::AnimNotify_TransitionFall()
+{
+	mAnimType = EPlayerAnimType::Fall;
+}
+
+void UPlayerAnimInstance::AnimNotify_FallEnd()
+{
+	mAnimType = EPlayerAnimType::Idle;
+
+	// 리커버리 Additive를 적용하기 위해 값을 1로 변경
+	mAdditiveAlpha = 1.f;
+
+	// 리커버리 동작 재생
+	if (!Montage_IsPlaying(mJumpRecoveryAdditiveMontage))
+	{
+		Montage_SetPosition(mJumpRecoveryAdditiveMontage, 0.f);
+
+		Montage_Play(mJumpRecoveryAdditiveMontage);
+	}
+	// 다시 점프 가능한 상태로 변경
+	mCanJump = true;
+}
+
+void UPlayerAnimInstance::AnimNotify_JumpRecoveryEnd()
+{
+	// 점프 리커버리 동작이 모두 완료가 되었다면
+	// 더이상 Additive를 적용할 필요가 없다.
+	mAdditiveAlpha = 0.f;
 }

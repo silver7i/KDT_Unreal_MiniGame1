@@ -23,7 +23,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	EPlayerAnimType mAnimType;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool	mOnGround;
+
 	bool	mCanJump;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* mJumpRecoveryAdditiveMontage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	float	mAdditiveAlpha;
+
 
 public:
 	UPlayerAnimInstance();
@@ -47,4 +57,13 @@ public:
 
 public:
 	void PlayJump();
+
+	UFUNCTION()
+	void AnimNotify_TransitionFall();
+
+	UFUNCTION()
+	void AnimNotify_FallEnd();
+
+	UFUNCTION()
+	void AnimNotify_JumpRecoveryEnd();
 };
