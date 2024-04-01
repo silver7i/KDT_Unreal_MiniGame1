@@ -16,6 +16,15 @@ UBasicInputDataConfig::UBasicInputDataConfig()
 
 	{
 		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
+		{ TEXT("/Script/EnhancedInput.InputAction'/Game/Blueprints/Player/Input/IA_Mouse.IA_Mouse'") };
+		if (Asset.Succeeded())
+		{
+			mMouse = Asset.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
 		{ TEXT("/Script/EnhancedInput.InputAction'/Game/Blueprints/Player/Input/IA_Move.IA_Move'") };
 		if(Asset.Succeeded())
 		{

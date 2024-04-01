@@ -26,8 +26,17 @@ void AMainPlayerController::SetupInputComponent()
 	ensure(EnhancedInputComponent);
 
 	const UBasicInputDataConfig* BasicInputDataConfig = GetDefault<UBasicInputDataConfig>();
+	EnhancedInputComponent->BindAction(BasicInputDataConfig->mMouse, ETriggerEvent::Triggered, this, &ThisClass::OnMouse);
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->mMove, ETriggerEvent::Triggered, this, &ThisClass::OnMove);
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->mJump, ETriggerEvent::Triggered, this, &ThisClass::OnJump);
+}
+
+void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
+{
+	const FVector ActionValue = InputActionValue.Get<FVector>();
+	AddYawInput(ActionValue.X);
+	AddPitchInput(ActionValue.Y);
+	//AddControllerYawInput(ActionValue.X);
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)

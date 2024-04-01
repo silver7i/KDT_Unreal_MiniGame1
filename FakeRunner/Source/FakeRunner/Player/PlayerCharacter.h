@@ -22,7 +22,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* mCameraArm;
 
-	class UPlayerAnimInstance* mAnimInst;
+	class UPlayerAnimInstance* mAnimInst = nullptr;
 
 protected:
 	// Called when the game starts or when spawned

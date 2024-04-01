@@ -31,6 +31,7 @@ protected:
 	virtual void SetupInputComponent() override;
 
 protected:
+	void OnMouse(const FInputActionValue& InputActionValue);
 	void OnMove(const FInputActionValue& InputActionValue);
 	void OnJump(const FInputActionValue& InputActionValue);
 };

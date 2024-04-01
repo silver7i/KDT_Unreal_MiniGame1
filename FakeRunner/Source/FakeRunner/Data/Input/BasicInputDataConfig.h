@@ -20,6 +20,7 @@ public:
 	UInputMappingContext* mDefaultContext = nullptr;
 
 public:
+	UInputAction* mMouse = nullptr;
 	UInputAction* mMove = nullptr;
 	UInputAction* mJump = nullptr;
 	
