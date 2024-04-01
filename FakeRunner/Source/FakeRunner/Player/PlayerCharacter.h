@@ -4,7 +4,11 @@
 
 #include "../GameInfo.h"
 #include "GameFramework/Character.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+
 #include "PlayerCharacter.generated.h"
+
 
 UCLASS()
 class FAKERUNNER_API APlayerCharacter : public ACharacter
@@ -37,5 +41,6 @@ public:
 
 public:
 	void PlayJump();
+	//void CameraControl(const FInputActionValue& InputActionValue);
 
 };

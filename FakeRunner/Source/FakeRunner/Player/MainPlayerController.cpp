@@ -37,6 +37,10 @@ void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
 	AddYawInput(ActionValue.X);
 	AddPitchInput(ActionValue.Y);
 	//AddControllerYawInput(ActionValue.X);
+
+	//APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
+
+	//ControlledPawn->CameraControl(InputActionValue);
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)
