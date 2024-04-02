@@ -36,11 +36,12 @@ void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
 	const FVector ActionValue = InputActionValue.Get<FVector>();
 	AddYawInput(ActionValue.X);
 	AddPitchInput(ActionValue.Y);
-	//AddControllerYawInput(ActionValue.X);
 
-	//APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
-
-	//ControlledPawn->CameraControl(InputActionValue);
+	PlayerCameraManager->ViewPitchMin = 290.f;
+	PlayerCameraManager->ViewPitchMax = 0.f;
+	
+	//FRotator Rotation = GetControlRotation();
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("%f"), Rotation.Pitch));
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)

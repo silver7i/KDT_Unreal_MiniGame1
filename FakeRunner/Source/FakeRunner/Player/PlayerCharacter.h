@@ -26,6 +26,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* mCameraArm;
 
+	FRotator CameraArmRotation;
+
 	class UPlayerAnimInstance* mAnimInst = nullptr;
 
 protected:
@@ -41,6 +43,5 @@ public:
 
 public:
 	void PlayJump();
-	//void CameraControl(const FInputActionValue& InputActionValue);
 
 };
