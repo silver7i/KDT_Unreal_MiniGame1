@@ -9,6 +9,9 @@
 
 #include "MainPlayerController.generated.h"
 
+
+#define CAMERA_ARM_PITCH_MIN	-60.f
+#define CAMERA_ARM_PITCH_MAX	0.f
 /**
  * 
  */
@@ -25,6 +28,9 @@ public:
 	{
 		return mMoveDir;
 	}
+
+public:
+	FRotator CameraArmRotation;
 	
 protected:
 	virtual void BeginPlay() override;

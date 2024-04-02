@@ -34,14 +34,23 @@ void AMainPlayerController::SetupInputComponent()
 void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
 {
 	const FVector ActionValue = InputActionValue.Get<FVector>();
-	AddYawInput(ActionValue.X);
-	AddPitchInput(ActionValue.Y);
+	//AddYawInput(ActionValue.X);
+	//AddPitchInput(ActionValue.Y);
 
-	PlayerCameraManager->ViewPitchMin = 290.f;
-	PlayerCameraManager->ViewPitchMax = 0.f;
-	
-	//FRotator Rotation = GetControlRotation();
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("%f"), Rotation.Pitch));
+	APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
+	//ControlledPawn->AddControllerYawInput(ActionValue.X);
+	//ControlledPawn->AddControllerPitchInput(ActionValue.Y);
+	CameraArmRotation = ControlledPawn->mCameraArmRotation;
+
+	CameraArmRotation.Yaw += ActionValue.X;
+
+	if (CameraArmRotation.Pitch >= CAMERA_ARM_PITCH_MIN - 1.f && CameraArmRotation.Pitch <= CAMERA_ARM_PITCH_MAX + 1.f)
+	{
+		CameraArmRotation.Pitch -= ActionValue.Y;
+		CameraArmRotation.Pitch = FMath::Clamp(CameraArmRotation.Pitch, CAMERA_ARM_PITCH_MIN, CAMERA_ARM_PITCH_MAX);
+	}
+
+	ControlledPawn->CameraArmControl(CameraArmRotation);
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)

@@ -15,19 +15,20 @@ APlayerCharacter::APlayerCharacter()
 
 	mCameraArm->SetRelativeLocationAndRotation(FVector(0.f, 0.f, 50.f), FRotator(-35.f, 0.f, 0.f));
 	mCameraArm->TargetArmLength = 500.f;
-	mCameraArm->bUsePawnControlRotation = true;
-	mCameraArm->bInheritYaw = true;
-	mCameraArm->bInheritPitch = true;
+	//mCameraArm->bUsePawnControlRotation = true;
+	//mCameraArm->bInheritYaw = true;
+	//mCameraArm->bInheritPitch = true;
+	mCameraArmRotation = mCameraArm->GetRelativeRotation();
 
 	mCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	mCamera->SetupAttachment(mCameraArm);
-	mCamera->bUsePawnControlRotation = false;
+	//mCamera->bUsePawnControlRotation = false;
 
-	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->bUseControllerDesiredRotation = true;
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 360.f, 0.f);
+	//GetCharacterMovement()->bOrientRotationToMovement = true;
+	//GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	//GetCharacterMovement()->RotationRate = FRotator(0.f, 360.f, 0.f);
 
-	bUseControllerRotationYaw = false;
+	//bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -61,6 +62,14 @@ void APlayerCharacter::PlayJump()
 		mAnimInst->PlayJump();
 	}
 }
+
+void APlayerCharacter::CameraArmControl(const FRotator& InputActionValue)
+{
+	mCameraArm->SetRelativeRotation(InputActionValue);
+
+	mCameraArmRotation = mCameraArm->GetRelativeRotation();
+}
+
 
 //void APlayerCharacter::CameraControl(const FInputActionValue& InputActionValue)
 //{

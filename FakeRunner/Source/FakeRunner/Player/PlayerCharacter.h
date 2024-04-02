@@ -9,6 +9,8 @@
 
 #include "PlayerCharacter.generated.h"
 
+#define CAMERA_ARM_PITCH_MIN	-60.f
+#define CAMERA_ARM_PITCH_MAX	0.f
 
 UCLASS()
 class FAKERUNNER_API APlayerCharacter : public ACharacter
@@ -26,7 +28,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* mCameraArm;
 
-	FRotator CameraArmRotation;
 
 	class UPlayerAnimInstance* mAnimInst = nullptr;
 
@@ -42,6 +43,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
-	void PlayJump();
+	FRotator mCameraArmRotation;
 
+	void PlayJump();
+	void CameraArmControl(const FRotator& InputActionValue);
 };
