@@ -40,8 +40,8 @@ void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
 	APlayerCharacter* ControlledPawn = GetPawn<APlayerCharacter>();
 	//ControlledPawn->AddControllerYawInput(ActionValue.X);
 	//ControlledPawn->AddControllerPitchInput(ActionValue.Y);
-	CameraArmRotation = ControlledPawn->mCameraArmRotation;
 
+	CameraArmRotation = ControlledPawn->mCameraArmRotation;
 	CameraArmRotation.Yaw += ActionValue.X;
 
 	if (CameraArmRotation.Pitch >= CAMERA_ARM_PITCH_MIN - 1.f && CameraArmRotation.Pitch <= CAMERA_ARM_PITCH_MAX + 1.f)
@@ -51,11 +51,13 @@ void AMainPlayerController::OnMouse(const FInputActionValue& InputActionValue)
 	}
 
 	ControlledPawn->CameraArmControl(CameraArmRotation);
+	SetControlRotation(FRotator(0.f, CameraArmRotation.Yaw, 0.f));
 }
 
 void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)
 {
 	APawn* ControlledPawn = GetPawn();
+	ControlledPawn->SetActorRotation(FRotator(0.f, CameraArmRotation.Yaw, 0.f));
 
 	const FRotator Rotation = K2_GetActorRotation();	//  K2_GetActorRotation() : RootComponent 회전을 반환
 	const FRotator YawRotation = FRotator(0.0, Rotation.Yaw, 0.0);	// Pitch(y), Yaw(z), Roll(x)
