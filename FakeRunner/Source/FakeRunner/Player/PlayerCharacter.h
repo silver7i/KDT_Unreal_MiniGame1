@@ -9,9 +9,6 @@
 
 #include "PlayerCharacter.generated.h"
 
-#define CAMERA_ARM_PITCH_MIN	-60.f
-#define CAMERA_ARM_PITCH_MAX	0.f
-
 UCLASS()
 class FAKERUNNER_API APlayerCharacter : public ACharacter
 {
@@ -20,6 +17,9 @@ class FAKERUNNER_API APlayerCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
+
+private:
+	FVector StartPoint;
 	
 protected:
 	UCapsuleComponent* mCapsule;

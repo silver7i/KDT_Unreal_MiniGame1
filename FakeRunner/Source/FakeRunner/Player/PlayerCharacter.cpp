@@ -33,6 +33,8 @@ void APlayerCharacter::BeginPlay()
 	mAnimInst = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 
 	mCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::BeginOverlap);
+
+	StartPoint = K2_GetActorLocation();
 }
 
 // Called every frame
@@ -68,5 +70,7 @@ void APlayerCharacter::CameraArmControl(const FRotator& InputActionValue)
 void APlayerCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap"));
+
+	SetActorLocation(StartPoint);
 }
 
