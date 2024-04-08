@@ -50,6 +50,8 @@ public:
 	void PlayJump();
 	void CameraArmControl(const FRotator& InputActionValue);
 
+	void SetPlayerStartLocation();
+
 public:
 	UFUNCTION()
 	void BeginOverlap(UPrimitiveComponent* OverlappedComponent,
