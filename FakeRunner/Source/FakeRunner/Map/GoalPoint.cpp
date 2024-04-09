@@ -39,6 +39,6 @@ void AGoalPoint::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("GoalPoint"));
 
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Character"));
+	UGameplayStatics::OpenLevel(GetWorld(), mLevelName);
 }
 

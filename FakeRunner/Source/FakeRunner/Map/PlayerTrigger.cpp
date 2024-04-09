@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Map/PlayerTrigger.h"
+#include "PlayerTrigger.h"
 
 // Sets default values
 APlayerTrigger::APlayerTrigger()
@@ -32,9 +32,4 @@ void APlayerTrigger::Tick(float DeltaTime)
 
 }
 
-void APlayerTrigger::BeginOverlap(UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-}
 

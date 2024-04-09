@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Map/PlayerTrigger.h"
+#include "PlayerTrigger.h"
 #include "TrapFloorCube.generated.h"
 
 /**
@@ -21,9 +21,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* mFloorCube;
 
-	bool	mHtiEnable = false;
+	bool	mHit = false;
+	bool	mSpawnEnable = false;
 	float	mHitTime = 0.f;
-	float	mDeleteDuration = 0.3f;
+
+	UPROPERTY(EditAnywhere)
+	float	mDeleteDuration = 1.f;
 
 protected:
 	// Called when the game starts or when spawned

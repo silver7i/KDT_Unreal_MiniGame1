@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Map/TrapFloorCube.h"
+#include "TrapFloorCube.h"
 
 ATrapFloorCube::ATrapFloorCube()
 {
@@ -24,7 +24,7 @@ ATrapFloorCube::ATrapFloorCube()
 
 void ATrapFloorCube::BeginPlay()
 {
-	Super::ReceiveBeginPlay();
+	Super::BeginPlay();
 	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATrapFloorCube::BeginOverlap);
 }
 
@@ -32,15 +32,25 @@ void ATrapFloorCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
+	if (mHit)
+	{
+		mHitTime += DeltaTime;
+		if (mHitTime > mDeleteDuration)
+		{
+			Destroy();
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("mHitTime : %f"), mHitTime));
 
-void ATrapFloorCube::Spawn()
-{
-
+			mHitTime = 0.f;
+		}
+	}
 }
 
 void ATrapFloorCube::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Hit"));
+	mHit = true;
+	mHitTime = 0.f;
 }
+
+
 

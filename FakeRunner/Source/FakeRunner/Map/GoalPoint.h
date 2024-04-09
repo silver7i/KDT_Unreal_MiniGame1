@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GameInfo.h"
+#include "../GameInfo.h"
 #include "GameFramework/Actor.h"
 #include "GoalPoint.generated.h"
 
@@ -20,6 +20,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* mTrigger;
+
+	UPROPERTY(EditAnywhere)
+	FName mLevelName;
 
 protected:
 	// Called when the game starts or when spawned
