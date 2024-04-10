@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "PlayerTrigger.h"
-#include "TrapFloorCube.generated.h"
+#include "TransparentFloor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FAKERUNNER_API ATrapFloorCube : public APlayerTrigger
+class FAKERUNNER_API ATransparentFloor : public APlayerTrigger
 {
 	GENERATED_BODY()
 
 public:
-	ATrapFloorCube();
+	ATransparentFloor();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

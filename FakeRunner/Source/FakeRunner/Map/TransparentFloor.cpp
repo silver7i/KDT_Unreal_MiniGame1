@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TrapFloorCube.h"
+#include "TransparentFloor.h"
 
-ATrapFloorCube::ATrapFloorCube()
+ATransparentFloor::ATransparentFloor()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
@@ -22,13 +22,13 @@ ATrapFloorCube::ATrapFloorCube()
 	mFloorCube->SetRelativeScale3D(FVector(1.01f, 1.01f, 1.01f));
 }
 
-void ATrapFloorCube::BeginPlay()
+void ATransparentFloor::BeginPlay()
 {
 	Super::BeginPlay();
-	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATrapFloorCube::BeginOverlap);
+	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATransparentFloor::BeginOverlap);
 }
 
-void ATrapFloorCube::Tick(float DeltaTime)
+void ATransparentFloor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -37,7 +37,6 @@ void ATrapFloorCube::Tick(float DeltaTime)
 		mHitTime += DeltaTime;
 		if (mHitTime > mDeleteDuration)
 		{
-			Destroy();
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("mHitTime : %f"), mHitTime));
 
 			mHitTime = 0.f;
@@ -45,7 +44,7 @@ void ATrapFloorCube::Tick(float DeltaTime)
 	}
 }
 
-void ATrapFloorCube::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Hit"));
 	mHit = true;
