@@ -23,7 +23,7 @@ AFadeFloor::AFadeFloor()
 	}
 
 	mFloorCube->SetRelativeLocation(FVector(0.f, 0.f, -130.f));
-	mFloorCube->SetRelativeScale3D(FVector(1.01f, 1.01f, 1.01f));
+	mFloorCube->SetRelativeScale3D(FVector(1.175f, 1.175f, 1.01f));
 
 	mRoot->bVisualizeComponent = true;
 

@@ -7,49 +7,103 @@ ATransparentFloor::ATransparentFloor()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
-	mTrigger->InitBoxExtent(FVector(130.f, 130.f, 130.f));
+	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 130.f));
 
-	mFloorCube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
-	mFloorCube->SetupAttachment(mTrigger);
+	mFloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
+	mFloorMesh->SetupAttachment(mTrigger);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/EngineMeshes/Cube.Cube'"));
 	if (Cube.Succeeded())
 	{
-		mFloorCube->SetStaticMesh(Cube.Object);
+		mFloorMesh->SetStaticMesh(Cube.Object);
 	}
 
-	mFloorCube->SetRelativeLocation(FVector(0.f, 0.f, -130.f));
-	mFloorCube->SetRelativeScale3D(FVector(1.01f, 1.01f, 1.01f));
+	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, -130.f));
+	mFloorMesh->SetRelativeScale3D(FVector(1.175f, 1.175f, 1.01f));
+
+	mOpacityEnable = true;
+	mOpacityTime = 0;
+	mOpacityDuration = 5.f;
 }
 
 void ATransparentFloor::BeginPlay()
 {
 	Super::BeginPlay();
 	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATransparentFloor::BeginOverlap);
+	mTrigger->OnComponentEndOverlap.AddDynamic(this, &ATransparentFloor::EndOverlap);
+
+
+	// 메시가 가지고 있는 머티리얼이 몇개인지 얻어온다.
+	int32 ElementCount = mFloorMesh->GetNumMaterials();
+
+	for (int32 i = 0; i < ElementCount; ++i)
+	{
+		// 다이나믹 머테리얼 인스턴스를 생성해서 머테리얼 배열에 넣어준다.
+		UMaterialInstanceDynamic* Mtrl = mFloorMesh->CreateDynamicMaterialInstance(i);
+		mMaterialArray.Add(Mtrl);
+	}
+}
+
+void ATransparentFloor::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("ATransparentFloor OnConstruction"));
+
+	//// 메시가 가지고 있는 머티리얼이 몇개인지 얻어온다.
+	//int32 ElementCount = mFloorMesh->GetNumMaterials();
+
+	//for (int32 i = 0; i < ElementCount; ++i)
+	//{
+	//	// 다이나믹 머테리얼 인스턴스를 생성해서 머테리얼 배열에 넣어준다.
+	//	UMaterialInstanceDynamic* Mtrl = mFloorMesh->CreateDynamicMaterialInstance(i);
+	//	mMaterialArray.Add(Mtrl);
+	//}
 }
 
 void ATransparentFloor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (mHit)
+	if (!mOpacityEnable)
 	{
-		mHitTime += DeltaTime;
-		if (mHitTime > mDeleteDuration)
+		mOpacityTime += DeltaTime;
+		if (mOpacityTime > mOpacityDuration && !mMaterialArray.IsEmpty())
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("mHitTime : %f"), mHitTime));
+			mOpacityEnable = true;
+			mOpacityTime = 0.f;
 
-			mHitTime = 0.f;
+			for (auto Mtrl : mMaterialArray)
+			{
+				Mtrl->SetScalarParameterValue(TEXT("Opacity"), 0.f);
+			}
 		}
 	}
+
 }
 
 void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Hit"));
-	mHit = true;
-	mHitTime = 0.f;
+
+	mOpacityEnable = true;
+	mOpacityTime = 0.f;
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("mMaterialArray : %d"), mMaterialArray.Num()));
+
+	if (!mMaterialArray.IsEmpty())
+	{
+		for (auto Mtrl : mMaterialArray)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,TEXT("Opacity"));
+
+			Mtrl->SetScalarParameterValue(TEXT("Opacity"), 0.2f);
+		}
+	}
 }
 
+void ATransparentFloor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	mOpacityEnable = false;
+}
 
 

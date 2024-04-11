@@ -8,7 +8,7 @@ AFloorSpawnPoint::AFloorSpawnPoint()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
-	mTrigger->InitBoxExtent(FVector(130.f, 130.f, 130.f));
+	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 130.f));
 
 	mSpawnObject = nullptr;
 }
