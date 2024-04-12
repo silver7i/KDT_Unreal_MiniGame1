@@ -16,8 +16,6 @@ public:
 	APlayerTrigger();
 
 protected:
-	USceneComponent* mRoot;
-
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* mTrigger;
 

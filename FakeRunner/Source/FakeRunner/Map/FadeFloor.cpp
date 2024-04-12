@@ -10,22 +10,21 @@ AFadeFloor::AFadeFloor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	mRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(mRoot);
-
+	//mRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	//SetRootComponent(mRoot);
 	mFloorCube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
-	mFloorCube->SetupAttachment(mRoot);
+	SetRootComponent(mFloorCube);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/EngineMeshes/Cube.Cube'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
 	if (Cube.Succeeded())
 	{
 		mFloorCube->SetStaticMesh(Cube.Object);
 	}
 
-	mFloorCube->SetRelativeLocation(FVector(0.f, 0.f, -130.f));
-	mFloorCube->SetRelativeScale3D(FVector(1.175f, 1.175f, 1.01f));
+	mFloorCube->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	mFloorCube->SetRelativeScale3D(FVector(3.f, 3.f, 1.f));
 
-	mRoot->bVisualizeComponent = true;
+	mFloorCube->bVisualizeComponent = true;
 
 	mSpawnPoint = nullptr;
 }

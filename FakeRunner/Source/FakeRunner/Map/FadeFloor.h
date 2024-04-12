@@ -16,7 +16,6 @@ public:
 	AFadeFloor();
 
 protected:
-	USceneComponent* mRoot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* mFloorCube;
@@ -25,7 +24,9 @@ protected:
 
 	bool	mDeleteEnable = false;
 	float	mDeleteTime = 0.f;
-	float	mDeleteDuration = 1.f;
+
+	UPROPERTY(EditAnywhere)
+	float	mDeleteDuration = 0.2f;
 
 public:
 	void SetSpawnPoint(class AFloorSpawnPoint* Point)

@@ -9,13 +9,10 @@ APlayerTrigger::APlayerTrigger()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	mRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	mTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
+	SetRootComponent(mTrigger);
 
-	SetRootComponent(mRoot);
-	mTrigger->SetupAttachment(mRoot);
-
-	mRoot->bVisualizeComponent = true;
+	mTrigger->bVisualizeComponent = true;
 }
 
 // Called when the game starts or when spawned

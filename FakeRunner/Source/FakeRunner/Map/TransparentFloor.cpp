@@ -7,19 +7,19 @@ ATransparentFloor::ATransparentFloor()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
-	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 130.f));
+	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 52.f));
 
 	mFloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
 	mFloorMesh->SetupAttachment(mTrigger);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/EngineMeshes/Cube.Cube'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
 	if (Cube.Succeeded())
 	{
 		mFloorMesh->SetStaticMesh(Cube.Object);
 	}
 
-	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, -130.f));
-	mFloorMesh->SetRelativeScale3D(FVector(1.175f, 1.175f, 1.01f));
+	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	mFloorMesh->SetRelativeScale3D(FVector(3.f, 3.f, 1.f));
 
 	mOpacityEnable = true;
 	mOpacityTime = 0;
@@ -75,6 +75,7 @@ void ATransparentFloor::Tick(float DeltaTime)
 			for (auto Mtrl : mMaterialArray)
 			{
 				Mtrl->SetScalarParameterValue(TEXT("Opacity"), 0.f);
+				Mtrl->SetScalarParameterValue(TEXT("OverlapEnable"), 0.f);
 			}
 		}
 	}
@@ -97,6 +98,7 @@ void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,TEXT("Opacity"));
 
 			Mtrl->SetScalarParameterValue(TEXT("Opacity"), 0.2f);
+			Mtrl->SetScalarParameterValue(TEXT("OverlapEnable"), 1.f);
 		}
 	}
 }
