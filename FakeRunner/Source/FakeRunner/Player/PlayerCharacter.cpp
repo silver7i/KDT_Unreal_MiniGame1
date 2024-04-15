@@ -17,11 +17,17 @@ APlayerCharacter::APlayerCharacter()
 
 	mCameraArm->SetRelativeLocationAndRotation(FVector(0.f, 0.f, 80.f), FRotator(-25.f, 0.f, 0.f));
 	mCameraArm->TargetArmLength = 500.f;
+	mCameraArm->bUsePawnControlRotation = false;
+	mCameraArm->bInheritYaw = false;
+	mCameraArm->bInheritPitch = false;
+	mCameraArm->bInheritRoll = false;
 
 	mCameraArmRotation = mCameraArm->GetRelativeRotation();
 
 	mCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	mCamera->SetupAttachment(mCameraArm);
+
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
