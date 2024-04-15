@@ -18,7 +18,7 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* mFloorCube;
+	UStaticMeshComponent* mFloorMesh;
 
 	class AFloorSpawnPoint* mSpawnPoint;
 
@@ -29,7 +29,7 @@ protected:
 	float	mDeleteDuration = 0.2f;
 
 public:
-	void SetSpawnPoint(class AFloorSpawnPoint* Point)
+	void mSetSpawnPoint(class AFloorSpawnPoint* Point)
 	{
 		mSpawnPoint = Point;
 	}
@@ -44,5 +44,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void DeleteFloor();
+
+	void mSetMaterial(UMaterialInstance* Material)
+	{
+		mFloorMesh->SetMaterial(0, Material);
+	}
 
 };

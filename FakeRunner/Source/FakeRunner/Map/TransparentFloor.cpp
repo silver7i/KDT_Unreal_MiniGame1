@@ -7,7 +7,7 @@ ATransparentFloor::ATransparentFloor()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
-	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 52.f));
+	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 55.f));
 
 	mFloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
 	mFloorMesh->SetupAttachment(mTrigger);
@@ -23,7 +23,7 @@ ATransparentFloor::ATransparentFloor()
 
 	mOpacityEnable = true;
 	mOpacityTime = 0;
-	mOpacityDuration = 5.f;
+	mOpacityDuration = 10.f;
 }
 
 void ATransparentFloor::BeginPlay()
@@ -84,18 +84,16 @@ void ATransparentFloor::Tick(float DeltaTime)
 
 void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Hit"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hit"));
 
 	mOpacityEnable = true;
 	mOpacityTime = 0.f;
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("mMaterialArray : %d"), mMaterialArray.Num()));
 
 	if (!mMaterialArray.IsEmpty())
 	{
 		for (auto Mtrl : mMaterialArray)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,TEXT("Opacity"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,TEXT("Opacity"));
 
 			Mtrl->SetScalarParameterValue(TEXT("Opacity"), 0.2f);
 			Mtrl->SetScalarParameterValue(TEXT("OverlapEnable"), 1.f);
@@ -106,6 +104,8 @@ void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 void ATransparentFloor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	mOpacityEnable = false;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("EndOverlap"));
+
 }
 
 

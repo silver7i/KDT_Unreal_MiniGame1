@@ -12,19 +12,19 @@ AFadeFloor::AFadeFloor()
 
 	//mRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	//SetRootComponent(mRoot);
-	mFloorCube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
-	SetRootComponent(mFloorCube);
+	mFloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
+	SetRootComponent(mFloorMesh);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
 	if (Cube.Succeeded())
 	{
-		mFloorCube->SetStaticMesh(Cube.Object);
+		mFloorMesh->SetStaticMesh(Cube.Object);
 	}
 
-	mFloorCube->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-	mFloorCube->SetRelativeScale3D(FVector(3.f, 3.f, 1.f));
+	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	mFloorMesh->SetRelativeScale3D(FVector(3.f, 3.f, 1.f));
 
-	mFloorCube->bVisualizeComponent = true;
+	mFloorMesh->bVisualizeComponent = true;
 
 	mSpawnPoint = nullptr;
 }
@@ -38,8 +38,6 @@ void AFadeFloor::BeginPlay()
 
 void AFadeFloor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("EndPlay"));
-
 	if (mSpawnPoint)
 	{
 		mSpawnPoint->ClearSpawnObject();
@@ -66,6 +64,5 @@ void AFadeFloor::DeleteFloor()
 {
 	mDeleteEnable = true;
 }
-
 
 

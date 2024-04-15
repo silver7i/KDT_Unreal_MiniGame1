@@ -8,7 +8,7 @@ AFloorSpawnPoint::AFloorSpawnPoint()
 {
 	mTrigger->SetCollisionProfileName(TEXT("PlayerTrigger"));
 
-	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 52.f));
+	mTrigger->InitBoxExtent(FVector(150.f, 150.f, 55.f));
 	mTrigger->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
 
 	mSpawnObject = nullptr;
@@ -20,6 +20,13 @@ void AFloorSpawnPoint::BeginPlay()
 	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &AFloorSpawnPoint::BeginOverlap);
 
 	Spawn();
+}
+
+void AFloorSpawnPoint::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Blue, TEXT("AFloorSpawnPoint OnConstruction"));
+
 }
 
 void AFloorSpawnPoint::Tick(float DeltaTime)
@@ -47,13 +54,12 @@ void AFloorSpawnPoint::Spawn()
 
 	mSpawnObject = GetWorld()->SpawnActor<AFadeFloor>(mSpawnClass, GetActorLocation(), GetActorRotation(), SpawnParam);
 
-	mSpawnObject->SetSpawnPoint(this);
+	mSpawnObject->mSetSpawnPoint(this);
+	mSpawnObject->mSetMaterial(mMaterial);
 }
 
 void AFloorSpawnPoint::ClearSpawnObject()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("ClearSpawnObject"));
-
 	mSpawnObject = nullptr;
 	mAccTime = 0.f;
 }

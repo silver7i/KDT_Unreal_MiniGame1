@@ -46,6 +46,14 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			{
 				mAnimType = EPlayerAnimType::Fall;
 			}
+			else if(mOnGround && mAnimType == EPlayerAnimType::Fall)
+			{
+				mAnimType = EPlayerAnimType::Idle;
+			}
+			else if(mOnGround && mAnimType == EPlayerAnimType::Jump)
+			{
+				mAnimType = EPlayerAnimType::Idle;
+			}
 		}
 
 		// 이 애님인스턴스를 가지고 있는 캐릭터로부터 해당 캐릭터를 컨트롤 하고 있는
@@ -73,17 +81,12 @@ void UPlayerAnimInstance::PlayJump()
 		Montage_Stop(0.1f, mJumpRecoveryAdditiveMontage);
 		mAdditiveAlpha = 0.f;
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Montage_Stop"));
-
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("PlayJump"));
-
 }
 
 void UPlayerAnimInstance::AnimNotify_TransitionFall()
 {
 	mAnimType = EPlayerAnimType::Fall;
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("AnimNotify_TransitionFall"));
-
 }
 
 void UPlayerAnimInstance::AnimNotify_FallEnd()
@@ -103,7 +106,6 @@ void UPlayerAnimInstance::AnimNotify_FallEnd()
 	}
 	// 다시 점프 가능한 상태로 변경
 	mCanJump = true;
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("AnimNotify_FallEnd"));
 
 }
 
@@ -112,5 +114,4 @@ void UPlayerAnimInstance::AnimNotify_JumpRecoveryEnd()
 	// 점프 리커버리 동작이 모두 완료가 되었다면
 	// 더이상 Additive를 적용할 필요가 없다.
 	mAdditiveAlpha = 0.f;
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("AnimNotify_JumpRecoveryEnd"));
 }

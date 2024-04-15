@@ -32,8 +32,6 @@ void APlayerCharacter::BeginPlay()
 	// Character 클래스의 SkeletalMeshComponent가 가지고 있는 AnimInstance 객체를 얻어온다.
 	mAnimInst = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 
-	mCapsule->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::BeginOverlap);
-
 	StartPoint = K2_GetActorLocation();
 }
 
@@ -71,12 +69,5 @@ void APlayerCharacter::SetPlayerStartLocation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("DeathPoint"));
 	SetActorLocation(StartPoint);
-}
-
-void APlayerCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap"));
-
-	//SetActorLocation(StartPoint);
 }
 

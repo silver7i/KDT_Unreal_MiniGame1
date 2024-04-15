@@ -22,13 +22,16 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AFadeFloor>	mSpawnClass;
 
+	UPROPERTY(EditAnywhere)
+	UMaterialInstance*	mMaterial;
+
 	// 위의 클래스를 이용해서
 	// 실제로 생성된 객체의 메모리 주소를 저장해둔다.
 	class AFadeFloor* mSpawnObject;
 
 	// 객체가 제거되고 지정된 시간 이후에
 	// 다시 생성하게 하기위한 변수
-	float	mSpawnTime = 5.f;
+	float	mSpawnTime = 7.f;
 
 	// 생성을 위해 시간을 계산하기 위한 변수
 	float	mAccTime;
@@ -39,6 +42,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void OnConstruction(const FTransform& Transform);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
