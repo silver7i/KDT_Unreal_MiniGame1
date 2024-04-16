@@ -21,7 +21,7 @@ AFadeFloor::AFadeFloor()
 		mFloorMesh->SetStaticMesh(Cube.Object);
 	}
 
-	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	mFloorMesh->SetRelativeLocation(FVector(0.f, 0.f, -5.f));
 	mFloorMesh->SetRelativeScale3D(FVector(3.f, 3.f, 1.f));
 
 	mFloorMesh->bVisualizeComponent = true;
@@ -60,9 +60,10 @@ void AFadeFloor::Tick(float DeltaTime)
 
 }
 
-void AFadeFloor::DeleteFloor()
+void AFadeFloor::DeleteFloor(float DurationTime)
 {
 	mDeleteEnable = true;
+	mDeleteDuration = DurationTime;
 }
 
 

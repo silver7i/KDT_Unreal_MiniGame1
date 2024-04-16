@@ -25,14 +25,20 @@ protected:
 
 	bool	mOpacityEnable;
 	float	mOpacityTime;
+
+	UPROPERTY(EditAnywhere)
 	float	mOpacityDuration;
+
+	float	mParamEnable;
+	float	mParamMask;
+	float	mParamGlow;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	virtual void OnConstruction(const FTransform& Transform);
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -43,11 +43,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void DeleteFloor();
+	void DeleteFloor(float DurationTime);
 
 	void mSetMaterial(UMaterialInstance* Material)
 	{
 		mFloorMesh->SetMaterial(0, Material);
 	}
 
+	void mSetScale3D(FVector Scale)
+	{
+		mFloorMesh->SetRelativeScale3D(Scale);
+	}
 };

@@ -3,6 +3,9 @@
 #pragma once
 
 #include "EngineMinimal.h"	// "CoreMinimal.h"
+#include "Engine.h"
+
+
 #include "UObject/NoExportTypes.h"
 #include "GameInfo.generated.h"
 

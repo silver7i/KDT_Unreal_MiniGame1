@@ -31,18 +31,23 @@ protected:
 
 	// 객체가 제거되고 지정된 시간 이후에
 	// 다시 생성하게 하기위한 변수
+	UPROPERTY(EditAnywhere)
 	float	mSpawnTime = 7.f;
 
 	// 생성을 위해 시간을 계산하기 위한 변수
 	float	mAccTime;
 
+	UPROPERTY(EditAnywhere)
+	float	mDeleteDuration = 0.2f;
+ 
+	FVector mScale3D;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	virtual void OnConstruction(const FTransform& Transform);
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
