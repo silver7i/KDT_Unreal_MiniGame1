@@ -25,9 +25,6 @@ void APlayerTrigger::BeginPlay()
 void APlayerTrigger::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("APlayerTrigger OnConstruction"));
-
 }
 
 // Called every frame

@@ -33,7 +33,6 @@ void ATransparentFloor::BeginPlay()
 	mTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATransparentFloor::BeginOverlap);
 	mTrigger->OnComponentEndOverlap.AddDynamic(this, &ATransparentFloor::EndOverlap);
 
-
 	// 메시가 가지고 있는 머티리얼이 몇개인지 얻어온다.
 	int32 ElementCount = mFloorMesh->GetNumMaterials();
 
@@ -41,15 +40,16 @@ void ATransparentFloor::BeginPlay()
 	{
 		// 다이나믹 머테리얼 인스턴스를 생성해서 머테리얼 배열에 넣어준다.
 		UMaterialInstanceDynamic* Mtrl = mFloorMesh->CreateDynamicMaterialInstance(i);
-		mMaterialArray.Add(Mtrl);
-	}
-
-	for (auto Mtrl : mMaterialArray)
-	{
 		Mtrl->GetScalarParameterValue(TEXT("OpacityMask"), mParamMask);
 		Mtrl->GetScalarParameterValue(TEXT("OpacityEnable"), mParamEnable);
 		Mtrl->GetScalarParameterValue(TEXT("Glow"), mParamGlow);
+		
+		mMaterialArray.Add(Mtrl);
 	}
+
+	mStartLocation = GetActorLocation();
+	mGlobalEndLocation = GetTransform().TransformPosition(mEndLocation);
+
 }
 
 void ATransparentFloor::OnConstruction(const FTransform& Transform)
@@ -89,6 +89,21 @@ void ATransparentFloor::Tick(float DeltaTime)
 		}
 	}
 
+	if (mMoveEnable)
+	{
+		mMoveTime += DeltaTime;
+		if (mMoveTime > mMoveDuration)
+		{
+			FVector Location = GetActorLocation();
+			FVector Direction = (mGlobalEndLocation - mStartLocation).GetSafeNormal();
+
+			Location += Direction * mMoveSpeed * DeltaTime;
+
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Location : %f"), Location.X));
+			SetActorLocation(Location);
+
+		}
+	}
 }
 
 void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -109,6 +124,13 @@ void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			Mtrl->SetScalarParameterValue(TEXT("Glow"), 30.f);
 		}
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("mMoveEnable : %d"), mMoveEnable));
+
+	if (bMoveEnable)
+	{
+		mMoveEnable = true;
+		mMoveTime = 0.f;
+	}
 }
 
 void ATransparentFloor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -116,6 +138,8 @@ void ATransparentFloor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	mOpacityEnable = false;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("EndOverlap"));
 
+	mMoveEnable = false;
+	mMoveTime = 0.f;
 }
 
 

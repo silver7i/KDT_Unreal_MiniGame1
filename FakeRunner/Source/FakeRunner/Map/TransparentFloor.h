@@ -33,6 +33,21 @@ protected:
 	float	mParamMask;
 	float	mParamGlow;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move", meta = (MakeEditWidget = true))
+	uint32	bMoveEnable : 1;
+
+	bool	mMoveEnable = false;
+	FVector mStartLocation;
+	FVector mGlobalEndLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move")
+	FVector	mEndLocation;
+
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float	mMoveSpeed = 500.f;
+	float	mMoveDuration = 0.5f;
+	float	mMoveTime = 0.f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
