@@ -48,24 +48,12 @@ void ATransparentFloor::BeginPlay()
 	}
 
 	mStartLocation = GetActorLocation();
-	mGlobalEndLocation = GetTransform().TransformPosition(mEndLocation);
-
 }
 
 void ATransparentFloor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("ATransparentFloor OnConstruction"));
-
-	//// 메시가 가지고 있는 머티리얼이 몇개인지 얻어온다.
-	//int32 ElementCount = mFloorMesh->GetNumMaterials();
-
-	//for (int32 i = 0; i < ElementCount; ++i)
-	//{
-	//	// 다이나믹 머테리얼 인스턴스를 생성해서 머테리얼 배열에 넣어준다.
-	//	UMaterialInstanceDynamic* Mtrl = mFloorMesh->CreateDynamicMaterialInstance(i);
-	//	mMaterialArray.Add(Mtrl);
-	//}
 }
 
 void ATransparentFloor::Tick(float DeltaTime)
@@ -95,14 +83,25 @@ void ATransparentFloor::Tick(float DeltaTime)
 		if (mMoveTime > mMoveDuration)
 		{
 			FVector Location = GetActorLocation();
-			FVector Direction = (mGlobalEndLocation - mStartLocation).GetSafeNormal();
+			FVector Direction = (mEndLocation - mStartLocation).GetSafeNormal();
 
-			Location += Direction * mMoveSpeed * DeltaTime;
-
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Location : %f"), Location.X));
-			SetActorLocation(Location);
-
+			if ((mEndLocation - mStartLocation).Size() > (Location - mStartLocation).Size())
+			{
+				Location += Direction * mMoveSpeed * DeltaTime;
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Location : %f, %f, %f"), (mEndLocation - Location).X, (mEndLocation - Location).Y, (mEndLocation - Location).Z));
+				SetActorLocation(Location);
+			}
+			else
+			{
+				SetActorLocation(mEndLocation);
+			}
 		}
+	}
+	else
+	{
+		mMoveTime += DeltaTime;
+		if(mMoveTime >= 5.f)
+			SetActorLocation(mStartLocation);
 	}
 }
 

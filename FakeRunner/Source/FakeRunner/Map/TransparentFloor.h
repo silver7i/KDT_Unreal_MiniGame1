@@ -38,7 +38,6 @@ protected:
 
 	bool	mMoveEnable = false;
 	FVector mStartLocation;
-	FVector mGlobalEndLocation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move")
 	FVector	mEndLocation;
