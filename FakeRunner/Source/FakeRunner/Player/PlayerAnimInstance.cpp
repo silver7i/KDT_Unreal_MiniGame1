@@ -80,7 +80,6 @@ void UPlayerAnimInstance::PlayJump()
 	{
 		Montage_Stop(0.1f, mJumpRecoveryAdditiveMontage);
 		mAdditiveAlpha = 0.f;
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Montage_Stop"));
 	}
 }
 
@@ -102,7 +101,6 @@ void UPlayerAnimInstance::AnimNotify_FallEnd()
 		Montage_SetPosition(mJumpRecoveryAdditiveMontage, 0.f);
 
 		Montage_Play(mJumpRecoveryAdditiveMontage);
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Montage_Play"));
 	}
 	// 다시 점프 가능한 상태로 변경
 	mCanJump = true;

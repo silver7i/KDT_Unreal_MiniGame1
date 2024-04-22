@@ -53,7 +53,6 @@ void ATransparentFloor::BeginPlay()
 void ATransparentFloor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("ATransparentFloor OnConstruction"));
 }
 
 void ATransparentFloor::Tick(float DeltaTime)
@@ -107,7 +106,6 @@ void ATransparentFloor::Tick(float DeltaTime)
 
 void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hit"));
 
 	mOpacityEnable = true;
 	mOpacityTime = 0.f;
@@ -116,14 +114,12 @@ void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	{
 		for (auto Mtrl : mMaterialArray)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,TEXT("Opacity"));
 
 			Mtrl->SetScalarParameterValue(TEXT("OpacityEnable"), 1.f);
 			Mtrl->SetScalarParameterValue(TEXT("OpacityMask"), 1.f);
 			Mtrl->SetScalarParameterValue(TEXT("Glow"), 30.f);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("mMoveEnable : %d"), mMoveEnable));
 
 	if (bMoveEnable)
 	{
@@ -135,7 +131,6 @@ void ATransparentFloor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 void ATransparentFloor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	mOpacityEnable = false;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("EndOverlap"));
 
 	mMoveEnable = false;
 	mMoveTime = 0.f;

@@ -73,7 +73,6 @@ void APlayerCharacter::CameraArmControl(const FRotator& InputActionValue)
 
 void APlayerCharacter::SetPlayerStartLocation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("DeathPoint"));
 	SetActorLocation(StartPoint);
 }
 

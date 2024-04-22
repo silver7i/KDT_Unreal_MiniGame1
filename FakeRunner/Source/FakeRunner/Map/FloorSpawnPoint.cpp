@@ -26,7 +26,6 @@ void AFloorSpawnPoint::BeginPlay()
 void AFloorSpawnPoint::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Blue, TEXT("AFloorSpawnPoint OnConstruction"));
 
 }
 
@@ -40,7 +39,6 @@ void AFloorSpawnPoint::Tick(float DeltaTime)
 		if (mAccTime > mSpawnTime)
 		{
 			Spawn();
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Spawn"));
 		}
 	}
 }
@@ -70,7 +68,6 @@ void AFloorSpawnPoint::BeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Hit"));
 
 	if(mSpawnObject != nullptr)
 		mSpawnObject->DeleteFloor(mDeleteDuration);

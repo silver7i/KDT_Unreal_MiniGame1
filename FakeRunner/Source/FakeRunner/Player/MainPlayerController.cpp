@@ -15,6 +15,7 @@ void AMainPlayerController::BeginPlay()
 	// CDO객체에 있는 DefaultContext를 사용할 것이다.
 	const UBasicInputDataConfig* BasicInputDataConfig = GetDefault<UBasicInputDataConfig>();
 	Subsystem->AddMappingContext(BasicInputDataConfig->mDefaultContext, 0);
+
 }
 
 void AMainPlayerController::SetupInputComponent()
