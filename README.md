@@ -32,7 +32,6 @@
 <img src="https://github.com/user-attachments/assets/8de60705-cb98-488f-90e9-9a1266eb46ce" width="45%" height="35%" alt="UI.gif"></img>
 
 
-
 5. 레벨시퀀스로 모션 제작  
-<img src="https://github.com/user-attachments/assets/30ead7db-e234-4a12-b0c4-db75d283fb93" width="45%" height="35%" alt="UI.gif"></img>
+<img src="https://github.com/user-attachments/assets/30ead7db-e234-4a12-b0c4-db75d283fb93" width="45%" height="35%" alt="모션 제작.gif"></img>
 
